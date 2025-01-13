@@ -1,6 +1,6 @@
 
-import { FaGithub, FaPlus, FaSpinner } from 'react-icons/fa'
-import { Container, Form, SubmitButton } from './styles'
+import { FaBars, FaGithub, FaPlus, FaSpinner, FaTrash } from 'react-icons/fa'
+import { Container, Form, SubmitButton, List, ButtonDelete } from './styles'
 import { useCallback, useState } from 'react'
 import api from '../../services/api'
 const Main = () => {
@@ -16,9 +16,15 @@ const Main = () => {
 
       try {
         const response = await api.get(`repos/${repositorio}`)
-        const name  = response.data.full_name
+        const data = {
+          name: response.data.full_name
+        }
 
-        setListRepositories([...listRepositories, name])
+        if (listRepositories.find(e => e.name === data.name)) {
+          throw new Error('Repositório já cadastrado')
+        }
+        
+        setListRepositories([...listRepositories, data])
         setRepositorio('')
       } catch (error) {
         console.error('Erro ao buscar repositório:', error);
@@ -30,6 +36,12 @@ const Main = () => {
 
     submit()
   }, [repositorio, listRepositories])
+
+  const handleDelete = useCallback((name) => {
+    const filterRepositories = listRepositories.filter(repository => repository.name !== name);
+    setListRepositories(filterRepositories);
+  }, [listRepositories]);
+  
 
   return (
     <Container>
@@ -51,10 +63,20 @@ const Main = () => {
         </SubmitButton>
       </Form>
 
-      {
-        listRepositories.map((repository, index) => (
-          <strong key={index}>{repository}</strong>
-        ))  }
+      <List>
+        {listRepositories.map((repository, index) => (
+          <li key={index}>
+            <span>
+              <ButtonDelete onClick={() => handleDelete(repository.name)}>
+                <FaTrash size={14} color='#ca4141' />
+              </ButtonDelete>
+              {repository.name}
+            </span>
+            <a href="#"><FaBars size={20} /></a>
+          </li>
+        ))}
+      </List>
+
     </Container>
   )
 }
