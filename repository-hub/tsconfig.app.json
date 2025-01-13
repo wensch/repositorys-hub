@@ -6,7 +6,8 @@
     },
     "jsx": "react-jsx",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "lib": ["ES2015", "DOM"],
   },
   "include": ["src"], // Certifique-se de incluir o diretório correto
   "exclude": ["node_modules"]
