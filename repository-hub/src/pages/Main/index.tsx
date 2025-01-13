@@ -1,13 +1,24 @@
 
 import { FaBars, FaGithub, FaPlus, FaSpinner, FaTrash } from 'react-icons/fa'
 import { Container, Form, SubmitButton, List, ButtonDelete } from './styles'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import api from '../../services/api'
 const Main = () => {
   const [repositorio, setRepositorio] = useState('')
   const [listRepositories, setListRepositories] = useState([])
   const [loading, setLoading] = useState(false)
   const [alert, setAlert] = useState(null)
+
+  useEffect(() => {
+    const repositories = localStorage.getItem('repositories')
+    if (repositories) {
+      setListRepositories(JSON.parse(repositories))
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('repositories', JSON.stringify(listRepositories))
+  }, [listRepositories])
 
   const handleChange = (e) => {
     setRepositorio(e.target.value)
