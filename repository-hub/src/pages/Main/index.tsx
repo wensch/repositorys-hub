@@ -7,14 +7,25 @@ const Main = () => {
   const [repositorio, setRepositorio] = useState('')
   const [listRepositories, setListRepositories] = useState([])
   const [loading, setLoading] = useState(false)
+  const [alert, setAlert] = useState(null)
+
+  const handleChange = (e) => {
+    setRepositorio(e.target.value)
+    setAlert(null)
+  }
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
 
     async function submit() {
       setLoading(true)
+      setAlert(null)
 
       try {
+        if (!repositorio.trim()) {
+          throw new Error('Informe um repositório')
+        }
+
         const response = await api.get(`repos/${repositorio}`)
         const data = {
           name: response.data.full_name
@@ -27,8 +38,8 @@ const Main = () => {
         setListRepositories([...listRepositories, data])
         setRepositorio('')
       } catch (error) {
+        setAlert(true);
         console.error('Erro ao buscar repositório:', error);
-        alert('Não foi possível buscar o repositório. Tente novamente.');
       } finally {
         setLoading(false)
       }
@@ -50,12 +61,12 @@ const Main = () => {
         Meus Repositórios
       </h1>
 
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} error={ alert }	>
         <input 
           type="text" 
           placeholder="Digite o nome do repositório"
           value={repositorio}
-          onChange={(e) => setRepositorio(e.target.value)}
+          onChange={handleChange}
         />
 
         <SubmitButton loading={loading ? 1 : 0}>
