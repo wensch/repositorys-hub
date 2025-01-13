@@ -7,7 +7,7 @@ export default function AppRoutes() {
     <Router>
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/repositorys:repositorio" element={<Repositorys />} />
+        <Route path="/repositorio/:repositorio" element={<Repositorys />} />
       </Routes>
     </Router>
   )

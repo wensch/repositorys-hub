@@ -1,8 +1,10 @@
 
-import { FaBars, FaGithub, FaPlus, FaSpinner, FaTrash } from 'react-icons/fa'
+import { FaGithub, FaPlus, FaSpinner, FaTrash } from 'react-icons/fa'
 import { Container, Form, SubmitButton, List, ButtonDelete } from './styles'
 import { useCallback, useEffect, useState } from 'react'
 import api from '../../services/api'
+import { FaCircleInfo } from 'react-icons/fa6'
+import { Link } from 'react-router-dom'
 const Main = () => {
   const [repositorio, setRepositorio] = useState('')
   const [listRepositories, setListRepositories] = useState([])
@@ -94,7 +96,7 @@ const Main = () => {
               </ButtonDelete>
               {repository.name}
             </span>
-            <a href="#"><FaBars size={20} /></a>
+            <Link to={`/repositorio/${encodeURIComponent(repository.name)}`}><FaCircleInfo size={20} /></Link>
           </li>
         ))}
       </List>
