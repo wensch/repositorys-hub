@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Link from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 export const Loading = styled.div`
   color: #fff;
@@ -51,3 +51,91 @@ export const BackButtuon = styled(Link)`
   outline: 0;
   cursor: pointer;
 `
+
+export const IssuesList = styled.ul`
+  padding-top: 30px;
+  margin-top: 30px;
+  border-top: 1px solid #eee;
+  list-style: none; 
+
+  li {
+    display: flex;
+    padding: 15px 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+
+    & + li {
+      margin-top: 10px;
+    }
+
+    img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid rgb(99, 99, 99);
+    }
+
+    div {
+      flex: 1;
+      margin-left: 15px;
+
+      strong {
+        font-size: 16px;
+
+        a {
+          text-decoration: none;
+          color: #222;
+          transition: color 0.2s;
+
+          &:hover {
+            color: #666;
+          }
+        }
+
+        span {
+          background-color: #eee;
+          color: #333;
+          border-radius: 2px;
+          font-size: 12px;
+          font-weight: 600;
+          height: 20px;
+          padding: 3px 4px;
+          margin-left: 10px;
+        }
+      }
+
+      p {
+        margin-top: 5px;
+        font-size: 12px;
+        color: #999; 
+      }
+    }
+  }`
+
+  export const PageActions = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-top: 50px;
+
+    button {
+      padding: 10px;
+      outline: 0;
+      border: 0;
+      background-color: rgb(68, 48, 134);;
+      display: flex;
+      align-items: center;
+      color: #fff;
+      cursor: pointer;
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+
+      svg {
+        margin-right: 5px;
+      }
+    }
+  `
