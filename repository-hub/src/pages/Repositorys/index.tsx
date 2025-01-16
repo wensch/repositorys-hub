@@ -1,14 +1,27 @@
 
 import { useParams  } from "react-router-dom";
-import { Container } from "./styles";
+import { Container, Owner, Loading, BackButtuon } from "./styles";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
-// {decodeURIComponent(repositorio)}
+import { FaArrowLeft } from "react-icons/fa";
+
+
+interface IRepository {
+  name: string;
+  description: string;
+  owner: {
+    login: string;
+    avatar_url: string;
+  }
+}
+
+
+
 const Repositorys = () => {
   const {repositorio} = useParams();
-  const [repository, setRepository] = useState({});
+  const [repository, setRepository] = useState<IRepository>({} as IRepository);
   const [issues, setIssues] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
 
   useEffect( () => {
@@ -35,9 +48,25 @@ const Repositorys = () => {
   }, [repositorio])
   
   return (
-    <Container>
-
-    </Container>
+    <>
+    {loading ?
+      <Loading>
+        <h1>Carregando...</h1>
+      </Loading>
+      :
+      <Container>
+        <BackButtuon to="/">
+          <FaArrowLeft size={20} color="#000" />
+        </BackButtuon>
+        <Owner>
+          <img src={repository.owner.avatar_url} alt={repository.owner.login} />
+          <h1>{repository.name}</h1>
+          <p>{repository.description}</p>
+        </Owner>
+      </Container>
+    }
+    </>
+    
   )
 }
 
