@@ -123,7 +123,7 @@ export const IssuesList = styled.ul`
       padding: 10px;
       outline: 0;
       border: 0;
-      background-color: rgb(68, 48, 134);;
+      background-color: rgb(68, 48, 134);
       display: flex;
       align-items: center;
       color: #fff;
@@ -139,3 +139,26 @@ export const IssuesList = styled.ul`
       }
     }
   `
+
+  export const IssueFilter = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+  `
+
+  export const ButtonSetIssues = styled.button`
+    padding: 10px 20px;
+    outline: 0;
+    border: 0;
+    background-color: ${props => props.active ?  'rgb(68, 48, 134)' : 'rgb(180, 161, 243)'};
+    display: flex;
+    align-items: center;
+    color: #fff;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  `	

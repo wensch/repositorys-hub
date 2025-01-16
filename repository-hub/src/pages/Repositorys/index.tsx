@@ -1,6 +1,6 @@
 
 import { useParams } from "react-router-dom";
-import { Container, Owner, Loading, BackButtuon, IssuesList, PageActions } from "./styles";
+import { Container, Owner, Loading, BackButtuon, IssuesList, PageActions, IssueFilter, ButtonSetIssues } from "./styles";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
 import { FaArrowLeft } from "react-icons/fa";
@@ -30,6 +30,7 @@ const Repositorys = () => {
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [stateIssues, setStateIssues] = useState('all');
 
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const Repositorys = () => {
     async function loadIssues() {
       const response = await api.get(`repos/${repositorio}/issues`, {
         params: {
-          state: 'open',
+          state: stateIssues,
           per_page: 5,
           page
         }
@@ -47,7 +48,7 @@ const Repositorys = () => {
 
     loadIssues()
     setLoading(false);
-  }, [repositorio,page])
+  }, [repositorio, page, stateIssues])
 
   useEffect(() => {
     setLoading(true);
@@ -74,8 +75,12 @@ const Repositorys = () => {
   }, [repositorio])
 
   const handlePageChange = (direction: string) => {
-    setLoading(true);    
+    setLoading(true);
     setPage(direction === 'next' ? page + 1 : page - 1);
+  }
+
+  const handleStateIssues = (state: string) => {
+    setStateIssues(state);
   }
 
   return (
@@ -94,6 +99,30 @@ const Repositorys = () => {
             <h1>{repository.name}</h1>
             <p>{repository.description}</p>
           </Owner>
+          <IssueFilter>
+            <ButtonSetIssues
+              type="button"
+              active={stateIssues === 'all'}
+              onClick={() => handleStateIssues('all')}
+            >
+              Todas
+            </ButtonSetIssues>
+            <ButtonSetIssues
+              type="button"
+              active={stateIssues === 'open'}
+              onClick={() => handleStateIssues('open')}
+            >
+              Abertas
+            </ButtonSetIssues>
+            <ButtonSetIssues
+              type="button"
+              active={stateIssues === 'closed'}
+              onClick={() => handleStateIssues('closed')}
+            >
+              Fechadas
+            </ButtonSetIssues>
+          </IssueFilter>
+
           <IssuesList>
             {issues.map(issue => (
               <li key={String(issue.id)}>
@@ -112,20 +141,20 @@ const Repositorys = () => {
           </IssuesList>
 
           <PageActions>
-            <button 
+            <button
               type="button"
-              disabled={page < 2} 
+              disabled={page < 2}
               onClick={() => handlePageChange('prev')}>
               Anterior
             </button>
-            <button 
+            <button
               type="button"
               onClick={() => handlePageChange('next')}>
               Proximo
             </button>
           </PageActions>
 
-      </Container>
+        </Container>
       }
     </>
 
